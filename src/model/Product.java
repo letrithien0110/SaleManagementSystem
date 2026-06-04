@@ -1,78 +1,94 @@
-
 package model;
 
+import java.util.ArrayList;
 
-public class Product {
-    
-    private String productId;
-    private String productName;
-    private String category;
-    private double price;
-    private int stockQuantity;
-    
-public Product(){
+public class ProductManager {
 
-}
+    private ArrayList<Product> productList;
 
-public Product(String productId, String productName, String category, double price, int stockQuantity){
-        this.productId = productId;
-        this.productName = productName;
-        this.category = category;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-}
-public String getProductId(){
-    return productId;
-}
-public String getProductName() {
-    return productName;
-}
+    public ProductManager() {
+        productList = new ArrayList<>();
+    }
 
-public String getCategory(){
-    return category;
-}
+    // Add Product
+    public void addProduct(Product product) {
 
-public double getPrice(){
-    return price;
-}
+        if (product == null) {
+            return;
+        }
 
-public int getStockQuantity(){
-    return stockQuantity;
-}
+        for (Product p : productList) {
+            if (p.getId().equalsIgnoreCase(product.getId())) {
+                System.out.println("Product ID already exists");
+                return;
+            }
+        }
 
-public void setProductName(String productName){
+        productList.add(product);
+        System.out.println("Product added successfully");
+    }
 
-    if(productName != null
-            && !productName.trim().isEmpty()){
+    // Search Product (ID hoặc Name)
+    public void searchProduct(String keyword) {
 
-        this.productName = productName;
+        boolean found = false;
+
+        for (Product product : productList) {
+
+            if (product.getId().equalsIgnoreCase(keyword)
+                    || product.getName().toLowerCase()
+                    .contains(keyword.toLowerCase())) {
+
+                System.out.println("ID: " + product.getId());
+                System.out.println("Name: " + product.getName());
+                System.out.println("Category: " + product.getCategory());
+                System.out.println("Price: " + product.getPrice());
+                System.out.println("Stock Quantity: " + product.getStockQuantity());
+                System.out.println("---------------------");
+
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Product not found");
+        }
+    }
+
+    // Update Stock
+    public void updateStock(String productId, int newQuantity) {
+
+        for (Product product : productList) {
+
+            if (product.getId().equalsIgnoreCase(productId)) {
+
+                product.setStockQuantity(newQuantity);
+
+                System.out.println("Stock updated successfully");
+                return;
+            }
+        }
+
+        System.out.println("Product not found");
+    }
+
+    public ArrayList<Product> getProductList() {
+        return productList;
     }
 }
+// Remove Product
+public void removeProduct(String productId) {
 
-public void setCategory(String category){
+    for (Product product : productList) {
 
-    if(category != null
-            && !category.trim().isEmpty()){
+        if (product.getId().equalsIgnoreCase(productId)) {
 
-        this.category = category;
+            productList.remove(product);
+
+            System.out.println("Product removed successfully");
+            return;
+        }
     }
-}
-public void setPrice(double price){
 
-    if(price > 0){// BR2: price must not be invalid 
-        this.price = price;
-    }
-}
-public void setStockQuantity(int stockQuantity){
-// // recalculate subtotal when quantity changes
-    if(stockQuantity >= 0){// BR4: stock must not be negative
-        this.stockQuantity = stockQuantity;
-    }
-}
-// phan them vao ai auditlog
-@Override
-public String toString() {
-
-    return productId + " - " + productName;
-    }
+    System.out.println("Product not found");
 }
