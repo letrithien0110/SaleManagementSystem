@@ -1,98 +1,44 @@
 package model;
 
-import java.util.ArrayList;
+public class Product {
 
-public class ProductManager {
+    private String productId;
+    private String productName;
+    private String category;
+    private double price;
+    private int stockQuantity;
 
-    private ArrayList<Product> productList;
-
-    public ProductManager() {
-        productList = new ArrayList<>();
+    public Product(String productId, String productName,
+                   String category, double price,
+                   int stockQuantity) {
+        this.productId = productId;
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
     }
 
-    // Add Product
-    public void addProduct(Product product) {
-
-        for (Product p : productList) {
-
-            if (p.getProductId().equalsIgnoreCase(product.getProductId())) {
-
-                System.out.println("Product ID already exists");
-                return;
-            }
-        }
-
-        productList.add(product);
-
-        System.out.println("Product added successfully");
+    public String getProductId() {
+        return productId;
     }
 
-    // Search Product (also check stock)
-    public void searchProduct(String keyword) {
-
-        boolean found = false;
-
-        for (Product product : productList) {
-
-            if (product.getProductId().equalsIgnoreCase(keyword)
-                    || product.getProductName().toLowerCase()
-                    .contains(keyword.toLowerCase())) {
-
-                System.out.println("ID: " + product.getProductId());
-                System.out.println("Name: " + product.getProductName());
-                System.out.println("Category: " + product.getCategory());
-                System.out.println("Price: " + product.getPrice());
-                System.out.println("Stock Quantity: "
-                        + product.getStockQuantity());
-
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("Product not found");
-        }
+    public String getProductName() {
+        return productName;
     }
 
-    // Update Stock
-    public void updateStock(String productId,
-                            int newQuantity) {
-
-        for (Product product : productList) {
-
-            if (product.getProductId()
-                    .equalsIgnoreCase(productId)) {
-
-                product.setStockQuantity(newQuantity);
-
-                System.out.println("Stock updated");
-                return;
-            }
-        }
-
-        System.out.println("Product not found");
+    public String getCategory() {
+        return category;
     }
 
-    // Remove Product
-    public void removeProduct(String productId) {
-
-        for (int i = 0; i < productList.size(); i++) {
-
-            if (productList.get(i)
-                    .getProductId()
-                    .equalsIgnoreCase(productId)) {
-
-                productList.remove(i);
-
-                System.out.println("Product removed successfully");
-                return;
-            }
-        }
-
-        System.out.println("Product not found");
+    public double getPrice() {
+        return price;
     }
 
-    public ArrayList<Product> getProductList() {
-        return productList;
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }
